@@ -20,16 +20,13 @@
 
 /**
  ********************************************************************************
- * @file    board.h
- * @author  Surendra Nadkarni
+ * @file    pir_sensor.cpp
+ * @author  Shubham Sawant
  * @date    09/10/2023
- * @brief   The board definitions for the project
+ * @brief   The pir sensor logic to check human presense
  ********************************************************************************
  */
-#ifndef __BOARD_H__
-#define __BOARD_H__
+#include <pir_sensor.h>
 #include <Arduino.h>
-#define DOOR_SENSOR_PIN  (D2) // Arduino Nano pin connected to door sensor's pin
-#define PIR_SENSOR_PIN   (D3) // Arduino Nano pin connected to door sensor's pin
+#include <board.h>
 
-#endif
