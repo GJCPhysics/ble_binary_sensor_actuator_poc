@@ -33,8 +33,8 @@ namespace PIRSensor
 {
     enum State : uint8_t
     {
-        PRESENSE_NO_DETECTED,
-        PRESENSE_DETECTED,
+        PRESENCE_NOT_DETECTED,
+        PRESENCE_DETECTED,
     };
     typedef void (*cb_notify) (void*, State);
     void setup(cb_notify, void*);
