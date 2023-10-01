@@ -53,13 +53,13 @@ namespace PIRSensor
         {
             f_state = PIRSensor::PRESENCE_DETECTED;
             if(f_cb) f_cb(f_context, f_state);
-            Serial.println("Presense detected");
+            Serial.println("Presence Detected");
         }
         else if ((f_last_pin_state == HIGH) && (current_pin_state == LOW))  // state change: HIGH -> LOW
         {
             f_state = PIRSensor::PRESENCE_NOT_DETECTED;
             if(f_cb) f_cb(f_context, f_state);
-            Serial.println("motion not detected");
+            Serial.println("Presence NOT Detected");
         }
         else
         {
