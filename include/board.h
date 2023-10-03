@@ -32,21 +32,3 @@
 #define DOOR_SENSOR_PIN  (D2) // Arduino Nano pin connected to door sensor's pin
 #define PIR_SENSOR_PIN (D3)   //Arduino Nano pin connected to pir sensor's pin
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
