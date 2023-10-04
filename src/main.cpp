@@ -140,8 +140,8 @@ void loop() {
 
     // while the central is still connected to peripheral:
     while (central.connected()) {
-     PIRSensor::loop(); // Housekeeping loop for pir sensor
-     DoorSensor::loop(); // Housekeeping loop for door sensor
+      PIRSensor::loop(); // Housekeeping loop for pir sensor
+      DoorSensor::loop(); // Housekeeping loop for door sensor
 
       if (f_digital_output_service.written()) {
         // if the remote device wrote to the characteristic,
