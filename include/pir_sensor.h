@@ -20,15 +20,24 @@
 
 /**
  ********************************************************************************
- * @file    board.h
- * @author  Surendra Nadkarni
+ * @file    pir_sensor.h
+ * @author  Shubham Sawant
  * @date    09/10/2023
- * @brief   The board definitions for the project
+ * @brief   The pir sensor C++ api interface
  ********************************************************************************
  */
-#ifndef __BOARD_H__
-#define __BOARD_H__
-#include <Arduino.h>
-#define DOOR_SENSOR_PIN  (D2) // Arduino Nano pin connected to door sensor's pin
-#define PIR_SENSOR_PIN   (D3) // Arduino Nano pin connected to pir sensor's pin
-#endif
+#pragma once
+#include <cstdint>
+
+namespace PIRSensor
+{
+    enum State : uint8_t
+    {
+        PRESENCE_NOT_DETECTED,
+        PRESENCE_DETECTED,
+    };
+    typedef void (*cb_notify) (void*, State);
+    void setup(cb_notify, void*);
+    void loop(void);
+    PIRSensor::State getStatus(void);
+}

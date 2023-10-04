@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2023 Samarth Holdings AS
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files
@@ -29,6 +29,7 @@
  */
 #include <Arduino.h>
 #include <ArduinoBLE.h>
+#include <pir_sensor.h>
 #include <door_sensor.h>
 #include <app_version.h>
 
@@ -48,6 +49,19 @@ static BLEByteCharacteristic f_digital_output_service("2A57", BLERead | BLEWrite
 static BLEByteCharacteristic f_sensor_characteristics("2A56", BLERead | BLENotify);
 static uint8_t sensor_value = 0;
 
+void pir_sensor_callback(void *i_context,PIRSensor::State i_state)
+{
+  if(PIRSensor::State::PRESENCE_NOT_DETECTED== i_state)
+  {
+    sensor_value = RESET_PIR_SENSOR(sensor_value);
+  }
+  else
+  {
+    sensor_value = SET_PIR_SENSOR(sensor_value);
+  }
+  f_sensor_characteristics.setValue(sensor_value);
+}
+
 void door_sensor_callback(void *i_context, DoorSensor::State i_state)
 {
   if(DoorSensor::State::DOOR_CLOSED == i_state)
@@ -60,6 +74,7 @@ void door_sensor_callback(void *i_context, DoorSensor::State i_state)
   }
   f_sensor_characteristics.setValue(sensor_value);
 }
+
 
 void setup() {
   Serial.begin(9600);
@@ -76,8 +91,13 @@ void setup() {
   digitalWrite(LEDG, HIGH);               // will turn the LED off
   digitalWrite(LEDB, HIGH);               // will turn the LED off
 
-  //register the callback to recive door state notification
+  //register the callback to recieve pir sensor state notification
+  PIRSensor::setup(pir_sensor_callback, NULL);
+
+ //register the callback to recieve door state notification
   DoorSensor::setup(door_sensor_callback, NULL);
+
+
 
   // begin initialization
   if (!BLE.begin()) {
@@ -120,7 +140,9 @@ void loop() {
 
     // while the central is still connected to peripheral:
     while (central.connected()) {
+      PIRSensor::loop(); // Housekeeping loop for pir sensor
       DoorSensor::loop(); // Housekeeping loop for door sensor
+
       if (f_digital_output_service.written()) {
         // if the remote device wrote to the characteristic,
         // use the value to control the LED:
