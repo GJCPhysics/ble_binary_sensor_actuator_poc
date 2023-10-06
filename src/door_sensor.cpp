@@ -52,15 +52,15 @@ namespace DoorSensor
 
         if ((f_last_pin_state == LOW) && (current_pin_state == HIGH))  // state change: LOW -> HIGH
         {
-            f_state = DoorSensor::DOOR_CLOSED;
+            f_state = DoorSensor::DOOR_OPENED;
             if(f_cb) f_cb(f_context, f_state);
-            Serial.println("Door closed");
+            Serial.println("Door opened");
         }
         else if ((f_last_pin_state == HIGH) && (current_pin_state == LOW))  // state change: HIGH -> LOW
         {
-            f_state = DoorSensor::DOOR_OPENED;
+            f_state = DoorSensor::DOOR_CLOSED;
             if(f_cb) f_cb(f_context, f_state);
-            Serial.println("Door Open");
+            Serial.println("Door closed");
         }
         else
         {
