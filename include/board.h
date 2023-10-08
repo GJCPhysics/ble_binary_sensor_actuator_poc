@@ -31,4 +31,5 @@
 #include <Arduino.h>
 #define DOOR_SENSOR_PIN  (D2) // Arduino Nano pin connected to door sensor's pin
 #define PIR_SENSOR_PIN   (D3) // Arduino Nano pin connected to pir sensor's pin
+#define SMOKE_SENSOR_PIN   (D4) // Arduino Nano pin connected to smoke sensor's pin                                                                               
 #endif
