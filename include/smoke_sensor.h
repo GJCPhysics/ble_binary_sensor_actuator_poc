@@ -21,7 +21,7 @@
 /**
  ********************************************************************************
  * @file    smoke_sensor.h
- * @author  Surendra Nadkarni
+ * @author  Mayuri Kinare
  * @date    09/10/2023
  * @brief   The smoke sensor C++ api interface
  ********************************************************************************

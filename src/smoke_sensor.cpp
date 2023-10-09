@@ -21,7 +21,7 @@
 /**
  ********************************************************************************
  * @file    smoke_sensor.cpp
- * @author  Surendra Nadkarni
+ * @author  Mayuri Kinare
  * @date    09/10/2023
  * @brief   The smoke sensor logic to check the whether the smoke is detected or not
  ********************************************************************************
