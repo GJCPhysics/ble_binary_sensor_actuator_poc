@@ -50,9 +50,9 @@ static BLEByteCharacteristic f_digital_output_service("2A57", BLERead | BLEWrite
 static BLEByteCharacteristic f_sensor_characteristics("2A56", BLERead | BLENotify);
 static uint8_t sensor_value = 0;
 
-void pir_sensor_callback(void *i_context,PIRSensor::State i_state)
+void pir_sensor_callback(void *i_context, PIRSensor::State i_state)
 {
-  if(PIRSensor::State::PRESENCE_NOT_DETECTED== i_state)
+  if(PIRSensor::State::PRESENCE_NOT_DETECTED == i_state)
   {
     sensor_value = RESET_PIR_SENSOR(sensor_value);
   }
@@ -76,9 +76,9 @@ void door_sensor_callback(void *i_context, DoorSensor::State i_state)
   f_sensor_characteristics.setValue(sensor_value);
 }
 
-void smoke_sensor_callback(void *i_context,SmokeSensor::State i_state)
+void smoke_sensor_callback(void *i_context, SmokeSensor::State i_state)
 {
-  if(SmokeSensor::State::SMOKE_NOT_DETECTED== i_state)
+  if(SmokeSensor::State::SMOKE_NOT_DETECTED == i_state)
   {
     sensor_value = RESET_SMOKE_SENSOR(sensor_value);
   }
