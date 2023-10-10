@@ -20,16 +20,24 @@
 
 /**
  ********************************************************************************
- * @file    board.h
- * @author  Surendra Nadkarni
+ * @file    smoke_sensor.h
+ * @author  Mayuri Kinare
  * @date    09/10/2023
- * @brief   The board definitions for the project
+ * @brief   The smoke sensor C++ api interface
  ********************************************************************************
  */
-#ifndef __BOARD_H__
-#define __BOARD_H__
-#include <Arduino.h>
-#define DOOR_SENSOR_PIN  (D2) // Arduino Nano pin connected to door sensor's pin
-#define PIR_SENSOR_PIN   (D3) // Arduino Nano pin connected to pir sensor's pin
-#define SMOKE_SENSOR_PIN   (D4) // Arduino Nano pin connected to smoke sensor's pin                                                                               
-#endif
+#pragma once
+#include <cstdint>
+
+namespace SmokeSensor
+{
+    enum State : uint8_t
+    {
+	SMOKE_NOT_DETECTED
+	SMOKE_DETECTED,
+    };
+    typedef void (*cb_notify) (void*, State);
+    void setup(cb_notify, void*);
+    void loop(void);
+    SmokeSensor::State getStatus(void);
+}

@@ -31,6 +31,7 @@
 #include <ArduinoBLE.h>
 #include <pir_sensor.h>
 #include <door_sensor.h>
+#include <smoke_sensor.h>
 #include <app_version.h>
 
 #define RESET_DOOR_SENSOR(val) (val & (~BIT_0))
@@ -49,9 +50,9 @@ static BLEByteCharacteristic f_digital_output_service("2A57", BLERead | BLEWrite
 static BLEByteCharacteristic f_sensor_characteristics("2A56", BLERead | BLENotify);
 static uint8_t sensor_value = 0;
 
-void pir_sensor_callback(void *i_context,PIRSensor::State i_state)
+void pir_sensor_callback(void *i_context, PIRSensor::State i_state)
 {
-  if(PIRSensor::State::PRESENCE_NOT_DETECTED== i_state)
+  if(PIRSensor::State::PRESENCE_NOT_DETECTED == i_state)
   {
     sensor_value = RESET_PIR_SENSOR(sensor_value);
   }
@@ -75,6 +76,20 @@ void door_sensor_callback(void *i_context, DoorSensor::State i_state)
   f_sensor_characteristics.setValue(sensor_value);
 }
 
+void smoke_sensor_callback(void *i_context, SmokeSensor::State i_state)
+{
+  if(SmokeSensor::State::SMOKE_NOT_DETECTED == i_state)
+  {
+    sensor_value = RESET_SMOKE_SENSOR(sensor_value);
+  }
+  else
+  {
+    sensor_value = SET_SMOKE_SENSOR(sensor_value);
+  }
+  f_sensor_characteristics.setValue(sensor_value);
+}
+
+
 
 void setup() {
   Serial.begin(9600);
@@ -97,7 +112,10 @@ void setup() {
  //register the callback to recieve door state notification
   DoorSensor::setup(door_sensor_callback, NULL);
 
+ //register the callback to recieve smoke sensor state notification
+  SmokeSensor::setup(smoke_sensor_callback, NULL);
 
+  
 
   // begin initialization
   if (!BLE.begin()) {
@@ -142,7 +160,8 @@ void loop() {
     while (central.connected()) {
       PIRSensor::loop(); // Housekeeping loop for pir sensor
       DoorSensor::loop(); // Housekeeping loop for door sensor
-
+      SmokeSensor::loop(); // Housekeeping loop for smoke sensor
+     
       if (f_digital_output_service.written()) {
         // if the remote device wrote to the characteristic,
         // use the value to control the LED:
@@ -185,3 +204,4 @@ void loop() {
     digitalWrite(LEDB, HIGH);         // will turn the LED off
   }
 }
+
